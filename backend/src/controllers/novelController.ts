@@ -228,10 +228,11 @@ export const updateNovel = async (req: AuthRequest, res: Response) => {
     }
 
     db.run(
-      'UPDATE novels SET title = ?, description = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?',
+      'UPDATE novels SET title = ?, description = ? WHERE id = ? AND user_id = ?',
       [title, description || '', novelId, userId],
       function (err) {
         if (err) {
+          console.error(err);
           return res.status(500).json({ error: '소설 수정 실패' });
         }
         if (this.changes === 0) {
@@ -314,10 +315,11 @@ export const updateChapter = async (req: AuthRequest, res: Response) => {
 
         // Update chapter
         db.run(
-          'UPDATE chapters SET title = ?, content = ?, word_count = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+          'UPDATE chapters SET title = ?, content = ?, word_count = ? WHERE id = ?',
           [title, content, wordCount, chapterId],
           function (err) {
             if (err) {
+              console.error(err);
               return res.status(500).json({ error: '챕터 수정 실패' });
             }
 
